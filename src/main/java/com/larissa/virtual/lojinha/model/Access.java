@@ -15,6 +15,7 @@ public class Access implements GrantedAuthority, Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String description; // ROLE_ADMIN etc
     @Override
     public String getAuthority() {

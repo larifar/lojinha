@@ -17,7 +17,10 @@ public class CouponModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private BigDecimal value;
+
+    @Column(nullable = false)
     private String code;
 
     public long getId() {
