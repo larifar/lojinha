@@ -1,5 +1,6 @@
 package com.larissa.virtual.lojinha.model;
 
+import com.larissa.virtual.lojinha.enums.AddressType;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -24,6 +25,8 @@ public class Address implements Serializable {
     private String UF;
     private String city;
     private String zipcode;
+    @Enumerated(EnumType.STRING)
+    private AddressType addressType;
 
     //Mapeamento "muitos para um"
     @ManyToOne
@@ -36,6 +39,14 @@ public class Address implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
     }
 
     public String getStreet() {
