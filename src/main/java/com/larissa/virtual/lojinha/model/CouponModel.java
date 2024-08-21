@@ -4,17 +4,21 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "product_category")
-public class ProductCategoryModel implements Serializable {
+@Table(name = "coupon")
+public class CouponModel implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private BigDecimal value;
+    private String code;
 
     public long getId() {
         return id;
@@ -24,12 +28,20 @@ public class ProductCategoryModel implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -37,7 +49,7 @@ public class ProductCategoryModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductCategoryModel that = (ProductCategoryModel) o;
+        CouponModel that = (CouponModel) o;
 
         return id == that.id;
     }
