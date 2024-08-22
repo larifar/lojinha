@@ -26,8 +26,19 @@ public class Cart implements Serializable {
     @OneToOne
     private Invoice invoice;
 
+    @OneToOne
+    private OrderTracking orderTracking;
+
     @ManyToOne
     private PaymentMethod paymentMethod;
+
+    public OrderTracking getOrderTracking() {
+        return orderTracking;
+    }
+
+    public void setOrderTracking(OrderTracking orderTracking) {
+        this.orderTracking = orderTracking;
+    }
 
     public long getId() {
         return id;
