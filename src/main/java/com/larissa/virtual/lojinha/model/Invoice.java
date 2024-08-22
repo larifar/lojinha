@@ -29,6 +29,17 @@ public class Invoice implements Serializable {
 
     private BigDecimal value;
 
+    @OneToOne
+    private Cart cart;
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     public long getId() {
         return id;
     }
