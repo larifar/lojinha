@@ -20,13 +20,16 @@ public class Bill implements Serializable {
 
     private String description;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BillStatus status;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date dtExpire;
     @Temporal(TemporalType.DATE)
     private Date dtPayment;
 
+    @Column(nullable = false)
     private BigDecimal value;
 
     @OneToOne

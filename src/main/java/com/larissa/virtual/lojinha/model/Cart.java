@@ -22,10 +22,11 @@ public class Cart implements Serializable {
     @ManyToOne
     private CouponModel coupon;
 
-    @Column(name = "base_price")
+    @Column(name = "base_price", nullable = false)
     private BigDecimal basePrice;
 
     private BigDecimal discount;
+    @Column(nullable = false)
     private BigDecimal shipping;
 
     @ManyToOne

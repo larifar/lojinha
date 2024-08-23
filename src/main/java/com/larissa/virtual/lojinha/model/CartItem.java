@@ -15,6 +15,7 @@ public class CartItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private int quantity;
 
     @ManyToOne

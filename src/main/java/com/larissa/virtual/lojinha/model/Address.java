@@ -17,15 +17,23 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String street;
+    @Column(nullable = false)
     private String number;
+    @Column(nullable = false)
     private String complement;
 
+    @Column(nullable = false)
     private String neighbor;
+    @Column(nullable = false)
     private String UF;
+    @Column(nullable = false)
     private String city;
+    @Column(nullable = false)
     private String zipcode;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AddressType addressType;
 
     //Mapeamento "muitos para um"
