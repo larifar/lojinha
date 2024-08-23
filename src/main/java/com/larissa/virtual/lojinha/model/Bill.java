@@ -30,7 +30,20 @@ public class Bill implements Serializable {
     private BigDecimal value;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Address address;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public Cart getCart() {
         return cart;

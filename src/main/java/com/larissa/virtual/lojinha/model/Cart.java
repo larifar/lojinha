@@ -27,8 +27,15 @@ public class Cart implements Serializable {
 
     private BigDecimal discount;
     private BigDecimal shipping;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Address address;
     @OneToOne
     private Bill bill;
+
+    @OneToOne
+    private Invoice invoice;
 
     @OneToOne
     private OrderTracking orderTracking;
@@ -36,6 +43,30 @@ public class Cart implements Serializable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private PaymentMethod paymentMethod;
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public CouponModel getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(CouponModel coupon) {
+        this.coupon = coupon;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public OrderTracking getOrderTracking() {
         return orderTracking;
