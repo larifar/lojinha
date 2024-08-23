@@ -21,10 +21,13 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String CPF;
-
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY)

@@ -15,11 +15,17 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
     private Boolean available = false;
 
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private String dimensions;
+    @Column(nullable = false)
     private BigDecimal value;
     @Column(name = "video_url")
     private String videoUrl;

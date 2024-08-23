@@ -15,8 +15,11 @@ public class Invoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String number;
+    @Column(nullable = false)
     private String series;
+    @Column(nullable = false)
     private String type;
     @Column(columnDefinition = "text")
     private String xml;
@@ -24,7 +27,16 @@ public class Invoice implements Serializable {
     private String pdf;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Cart cart;
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     public long getId() {
         return id;

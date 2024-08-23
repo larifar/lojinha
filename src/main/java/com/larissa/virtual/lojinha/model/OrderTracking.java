@@ -22,6 +22,7 @@ public class OrderTracking implements Serializable {
     private Date date;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Cart cart;
 
     public long getId() {
