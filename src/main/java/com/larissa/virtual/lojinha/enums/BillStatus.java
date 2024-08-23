@@ -1,6 +1,6 @@
 package com.larissa.virtual.lojinha.enums;
 
-public enum InvoiceStatus {
+public enum BillStatus {
     EXPIRED("Vencido"),
     OPEN("Aberta"),
     PAYED("Quitada"),
@@ -8,7 +8,7 @@ public enum InvoiceStatus {
 
     private String status;
 
-    InvoiceStatus(String status) {
+    BillStatus(String status) {
         this.status = status;
     }
     public String getStatus() {

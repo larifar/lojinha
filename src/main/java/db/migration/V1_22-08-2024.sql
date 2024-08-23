@@ -16,4 +16,4 @@ ALTER TABLE image_product MODIFY COLUMN big_img_path TEXT;
 ALTER TABLE image_product MODIFY COLUMN short_img_path TEXT;
 ALTER TABLE product MODIFY COLUMN description TEXT;
 ALTER TABLE product MODIFY COLUMN video_url TEXT;
-ALTER TABLE invoice MODIFY COLUMN description TEXT;
+ALTER TABLE bill MODIFY COLUMN description TEXT;

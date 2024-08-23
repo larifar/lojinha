@@ -1,6 +1,6 @@
 package com.larissa.virtual.lojinha.model;
 
-import com.larissa.virtual.lojinha.enums.InvoiceStatus;
+import com.larissa.virtual.lojinha.enums.BillStatus;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "invoice")
-public class Invoice implements Serializable {
+@Table(name = "bill")
+public class Bill implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class Invoice implements Serializable {
 
     private String description;
     @Enumerated(EnumType.STRING)
-    private InvoiceStatus status;
+    private BillStatus status;
 
     @Temporal(TemporalType.DATE)
     private Date dtExpire;
@@ -56,11 +56,11 @@ public class Invoice implements Serializable {
         this.description = description;
     }
 
-    public InvoiceStatus getStatus() {
+    public BillStatus getStatus() {
         return status;
     }
 
-    public void setStatus(InvoiceStatus status) {
+    public void setStatus(BillStatus status) {
         this.status = status;
     }
 
@@ -93,9 +93,9 @@ public class Invoice implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Invoice invoice = (Invoice) o;
+        Bill bill = (Bill) o;
 
-        return id == invoice.id;
+        return id == bill.id;
     }
 
     @Override

@@ -19,13 +19,16 @@ public class Cart implements Serializable {
     @JoinColumn(nullable = false)
     private User user;
 
+    @ManyToOne
+    private CouponModel coupon;
+
     @Column(name = "base_price")
     private BigDecimal basePrice;
 
-    private BigDecimal descount;
+    private BigDecimal discount;
     private BigDecimal shipping;
     @OneToOne
-    private Invoice invoice;
+    private Bill bill;
 
     @OneToOne
     private OrderTracking orderTracking;
@@ -66,12 +69,12 @@ public class Cart implements Serializable {
         this.basePrice = basePrice;
     }
 
-    public BigDecimal getDescount() {
-        return descount;
+    public BigDecimal getDiscount() {
+        return discount;
     }
 
-    public void setDescount(BigDecimal descount) {
-        this.descount = descount;
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
     }
 
     public BigDecimal getShipping() {
@@ -82,12 +85,12 @@ public class Cart implements Serializable {
         this.shipping = shipping;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
+    public Bill getBill() {
+        return bill;
     }
 
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 
     public PaymentMethod getPaymentMethod() {
