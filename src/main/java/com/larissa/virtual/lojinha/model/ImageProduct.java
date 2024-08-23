@@ -22,6 +22,7 @@ public class ImageProduct implements Serializable {
     private String shortImgPath;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Product product;
 
     public long getId() {

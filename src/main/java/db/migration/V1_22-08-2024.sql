@@ -10,4 +10,10 @@ WHERE k.TABLE_NAME = 'users_access'
 
 ALTER TABLE users_access DROP FOREIGN KEY access_fk;
 ALTER TABLE users_access DROP INDEX UK334qtcbwdr3q9ah8ocu75pdxn;
-ALTER TABLE users_access ADD CONSTRAINT access_fk FOREIGN KEY (access_id) RE=FERENCES access(id);
+ALTER TABLE users_access ADD CONSTRAINT access_fk FOREIGN KEY (access_id) REFERENCES access(id);
+
+ALTER TABLE image_product MODIFY COLUMN big_img_path TEXT;
+ALTER TABLE image_product MODIFY COLUMN short_img_path TEXT;
+ALTER TABLE product MODIFY COLUMN description TEXT;
+ALTER TABLE product MODIFY COLUMN video_url TEXT;
+ALTER TABLE invoice MODIFY COLUMN description TEXT;

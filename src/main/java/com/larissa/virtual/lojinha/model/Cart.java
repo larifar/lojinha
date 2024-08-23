@@ -16,6 +16,7 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private User user;
 
     @Column(name = "base_price")
@@ -30,6 +31,7 @@ public class Cart implements Serializable {
     private OrderTracking orderTracking;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private PaymentMethod paymentMethod;
 
     public OrderTracking getOrderTracking() {

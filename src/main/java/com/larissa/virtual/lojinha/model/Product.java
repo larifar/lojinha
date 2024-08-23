@@ -15,6 +15,7 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private Boolean available = false;
 
     private String name;
     private String description;
@@ -23,6 +24,7 @@ public class Product implements Serializable {
     @Column(name = "video_url")
     private String videoUrl;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private ProductCategoryModel category;
 
     public long getId() {
@@ -39,6 +41,14 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public String getDescription() {

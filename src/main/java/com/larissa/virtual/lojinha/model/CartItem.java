@@ -18,9 +18,11 @@ public class CartItem implements Serializable {
     private int quantity;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Product product;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Cart cart;
 
     public long getId() {
