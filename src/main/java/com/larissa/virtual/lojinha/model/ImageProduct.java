@@ -15,10 +15,10 @@ public class ImageProduct implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "big_img_path")
+    @Column(name = "big_img_path", columnDefinition = "text")
     private String bigImgPath;
 
-    @Column(name = "short_img_path")
+    @Column(name = "short_img_path", columnDefinition = "text")
     private String shortImgPath;
 
     @ManyToOne

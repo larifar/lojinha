@@ -21,7 +21,6 @@ public class Address implements Serializable {
     private String street;
     @Column(nullable = false)
     private String number;
-    @Column(nullable = false)
     private String complement;
 
     @Column(nullable = false)
