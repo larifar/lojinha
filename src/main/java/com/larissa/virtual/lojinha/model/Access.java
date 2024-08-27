@@ -1,5 +1,6 @@
 package com.larissa.virtual.lojinha.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -18,6 +19,7 @@ public class Access implements GrantedAuthority, Serializable {
     @Column(nullable = false)
     private String description; // ROLE_ADMIN etc
     @Override
+    @JsonIgnore
     public String getAuthority() {
         return this.description;
     }
