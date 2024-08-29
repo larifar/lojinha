@@ -4,10 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.larissa.virtual.lojinha.ApplicationContextLoad;
 import com.larissa.virtual.lojinha.model.User;
 import com.larissa.virtual.lojinha.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Service
@@ -39,31 +44,40 @@ public class JWTTokenAutenticationService {
             enableCors(response);
             response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
         } catch (JWTCreationException exception) {
-            throw new Exception(exception);
+            response.getWriter().write(exception.getMessage());
+            response.getWriter().flush();
+            response.getWriter().close();
         }
     }
 
-    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response){
-        DecodedJWT decodedJWT;
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String token = request.getHeader(HEADER_TOKEN);
-        if (token != null){
-            token = token.replace(PREFIX_TOKEN, "").trim();
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
-            JWTVerifier jwtVerifier = JWT.require(algorithm).withIssuer("auth0").build();
+        try {
+            if (token != null) {
+                token = token.replace(PREFIX_TOKEN, "").trim();
+                Algorithm algorithm = Algorithm.HMAC256(SECRET);
+                JWTVerifier jwtVerifier = JWT.require(algorithm).withIssuer("auth0").build();
 
-            String user = jwtVerifier.verify(token).getSubject();
-            if (user != null){
-                User userFind = ApplicationContextLoad
-                        .getApplicationContext()
-                        .getBean(UserRepository.class).findUserByEmail(user);
+                String user = jwtVerifier.verify(token).getSubject();
+                if (user != null) {
+                    User userFind = ApplicationContextLoad
+                            .getApplicationContext()
+                            .getBean(UserRepository.class).findUserByEmail(user);
 
-                if (userFind != null){
-                    return new UsernamePasswordAuthenticationToken(
-                            userFind.getUsername(), userFind.getPassword(), userFind.getAuthorities());
+                    if (userFind != null) {
+                        return new UsernamePasswordAuthenticationToken(
+                                userFind.getUsername(), userFind.getPassword(), userFind.getAuthorities());
+                    }
                 }
             }
+        } catch (JWTVerificationException | ExpiredJwtException exception) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+            response.getWriter().write("Token inválido");
+            response.getWriter().flush();
+            response.getWriter().close();
+        } finally {
+            enableCors(response);
         }
-        enableCors(response);
         return null;
     }
 
