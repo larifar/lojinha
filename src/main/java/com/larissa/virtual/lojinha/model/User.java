@@ -30,7 +30,7 @@ public class User implements Serializable, UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_access",
             uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "access_id"}, name = "unique_user_access"),
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", table = "user",

@@ -1,13 +1,20 @@
 package com.larissa.virtual.lojinha.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.larissa.virtual.lojinha.ApplicationContextLoad;
+import com.larissa.virtual.lojinha.model.User;
+import com.larissa.virtual.lojinha.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.security.interfaces.RSAKey;
 import java.util.Date;
 
 @Service
@@ -18,7 +25,7 @@ public class JWTTokenAutenticationService {
     private final static String PREFIX_TOKEN = "Bearer";
     private final static String HEADER_TOKEN = "Authorization";
 
-    public void addAuthentication(HttpServletResponse response, String username) throws Exception{
+    public void addAuthentication(HttpServletResponse response, String username) throws Exception {
         String token;
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
@@ -29,9 +36,49 @@ public class JWTTokenAutenticationService {
                     .sign(algorithm);
             token = PREFIX_TOKEN + " " + jwt;
             response.addHeader(HEADER_TOKEN, token);
-            response.getWriter().write("{\"Authorization\": \""+token+"\"}");
-        } catch (JWTCreationException exception){
+            enableCors(response);
+            response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
+        } catch (JWTCreationException exception) {
             throw new Exception(exception);
+        }
+    }
+
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response){
+        DecodedJWT decodedJWT;
+        String token = request.getHeader(HEADER_TOKEN);
+        if (token != null){
+            token = token.replace(PREFIX_TOKEN, "").trim();
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JWTVerifier jwtVerifier = JWT.require(algorithm).withIssuer("auth0").build();
+
+            String user = jwtVerifier.verify(token).getSubject();
+            if (user != null){
+                User userFind = ApplicationContextLoad
+                        .getApplicationContext()
+                        .getBean(UserRepository.class).findUserByEmail(user);
+
+                if (userFind != null){
+                    return new UsernamePasswordAuthenticationToken(
+                            userFind.getUsername(), userFind.getPassword(), userFind.getAuthorities());
+                }
+            }
+        }
+        enableCors(response);
+        return null;
+    }
+
+    private void enableCors(HttpServletResponse response) {
+        if (response.getHeader("Access-Control-Allow-Origin") == null) {
+            response.addHeader("Access-Control-Allow-Origin", "*");
+        }
+        if (response.getHeader("Access-Control-Allow-Headers") == null) {
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+        if (response.getHeader("Access-Control-Request-Headers") == null) {
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+        if (response.getHeader("Access-Control-Allow-Methods") == null) {
+            response.addHeader("Access-Control-Allow-Methods", "*");
         }
 
     }
