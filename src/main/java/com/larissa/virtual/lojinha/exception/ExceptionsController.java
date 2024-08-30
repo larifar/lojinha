@@ -22,6 +22,15 @@ import java.util.List;
 @ControllerAdvice
 public class ExceptionsController extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(ExceptionLoja.class)
+    public ResponseEntity<Object> handleCustomException(ExceptionLoja ex){
+        ErrorObjectDto objectDto = new ErrorObjectDto();
+        objectDto.setError(ex.getMessage());
+        objectDto.setCode(String.valueOf(HttpStatus.OK));
+
+        return new ResponseEntity<>(objectDto, HttpStatus.OK);
+    }
+
     @Override
     @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {

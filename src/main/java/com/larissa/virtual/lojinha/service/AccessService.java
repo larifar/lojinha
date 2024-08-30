@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccessService {
     @Autowired
     private AccessRepository accessRepository;
+
+    public List<Access> getAll(){
+        return accessRepository.findAll().stream().toList();
+    }
 
     public Access save(Access access){
         return accessRepository.save(access);
@@ -24,8 +29,8 @@ public class AccessService {
         accessRepository.deleteById(id);
     }
 
-    public Access getById(Long id) {
-        return accessRepository.findById(id).get();
+    public Optional<Access> getById(Long id) {
+        return accessRepository.findById(id);
     }
 
     public List<Access> findByDesc(String desc) {

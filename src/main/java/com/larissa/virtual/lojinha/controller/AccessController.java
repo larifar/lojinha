@@ -1,5 +1,6 @@
 package com.larissa.virtual.lojinha.controller;
 
+import com.larissa.virtual.lojinha.exception.ExceptionLoja;
 import com.larissa.virtual.lojinha.model.Access;
 import com.larissa.virtual.lojinha.service.AccessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RestController
@@ -20,7 +23,11 @@ public class AccessController {
 
     @ResponseBody
     @PostMapping(value = "/saveAccess")
-    public ResponseEntity<Access> saveAccess(@RequestBody Access access){
+    public ResponseEntity<Access> saveAccess(@RequestBody Access access) throws ExceptionLoja {
+        Optional<List<Access>> accesses = Optional.ofNullable(accessService.findByDesc(access.getDescription()));
+        if (accesses.isPresent()){
+            throw new ExceptionLoja("Já existe um acesso com essa descrição.");
+        }
         Access accessSaved = accessService.save(access);
         return new ResponseEntity<>(accessSaved, HttpStatus.OK);
     }
@@ -40,9 +47,12 @@ public class AccessController {
     }
 
     @GetMapping(value = "/getAccessById/{id}")
-    public ResponseEntity<Access> getByIdAccess(@PathVariable Long id){
-        Access access = accessService.getById(id);
-        return new ResponseEntity<>(access, HttpStatus.OK);
+    public ResponseEntity<Access> getByIdAccess(@PathVariable Long id) throws ExceptionLoja {
+        Optional<Access> access = accessService.getById(id);
+        if (access.isEmpty()){
+            throw new ExceptionLoja("Acesso não encontrado com id: " + id);
+        }
+        return new ResponseEntity<>(access.get(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/findAccess/{desc}")

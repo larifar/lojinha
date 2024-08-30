@@ -3,6 +3,7 @@ package com.larissa.virtual.lojinha;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.larissa.virtual.lojinha.controller.AccessController;
+import com.larissa.virtual.lojinha.exception.ExceptionLoja;
 import com.larissa.virtual.lojinha.model.Access;
 import com.larissa.virtual.lojinha.repository.AccessRepository;
 import org.junit.jupiter.api.Test;
@@ -144,7 +145,7 @@ public class LojinhaApplicationTests{
 		accessRepository.delete(access);
 	}
 	@Test
-	public void testInsertAccess() {
+	public void testInsertAccess() throws ExceptionLoja {
 		Access access = new Access();
 		access.setDescription("ROLE_Teste");
 		access = accessController.saveAccess(access).getBody();
