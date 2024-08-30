@@ -20,7 +20,7 @@ public class CouponModel implements Serializable {
     @Column(nullable = false)
     private BigDecimal value;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
 
     public long getId() {
