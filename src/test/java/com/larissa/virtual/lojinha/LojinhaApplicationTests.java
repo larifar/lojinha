@@ -41,7 +41,7 @@ public class LojinhaApplicationTests{
 		MockMvc mockMvc = builder.build();
 
 		Access access = new Access();
-		access.setDescription("ROLE_MockTest");
+		access.setDescription("ROLE_ApiInsertTest3");
 		ObjectMapper mapper = new ObjectMapper();
 
 		ResultActions apiResult = mockMvc
@@ -53,6 +53,8 @@ public class LojinhaApplicationTests{
 		Access objectResponse = mapper
 				.readValue(apiResult.andReturn().getResponse().getContentAsString(), Access.class);
 		assertEquals(access.getDescription(), objectResponse.getDescription());
+
+		accessRepository.delete(objectResponse);
 	}
 
 	//teste para deletar um acesso
@@ -147,12 +149,14 @@ public class LojinhaApplicationTests{
 	@Test
 	public void testInsertAccess() throws ExceptionLoja {
 		Access access = new Access();
-		access.setDescription("ROLE_Teste");
+		access.setDescription("ROLE_InsertTest");
 		access = accessController.saveAccess(access).getBody();
         assertTrue(access.getId() > 0);
 
 		Access access2 = accessRepository.findById(access.getId()).get();
 		assertEquals(access.getId(), access2.getId());
+
+		accessRepository.delete(access);
 	}
 
 }

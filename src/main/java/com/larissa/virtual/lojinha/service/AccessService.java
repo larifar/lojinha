@@ -17,6 +17,10 @@ public class AccessService {
         return accessRepository.findAll().stream().toList();
     }
 
+    public Boolean existsByDescription(String desc){
+        return accessRepository.existsByDescriptionIgnoreCase(desc);
+    }
+
     public Access save(Access access){
         return accessRepository.save(access);
     }

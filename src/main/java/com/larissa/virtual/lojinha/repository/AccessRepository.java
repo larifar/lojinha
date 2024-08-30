@@ -14,4 +14,7 @@ import java.util.List;
 public interface AccessRepository extends JpaRepository<Access, Long> {
     @Query("SELECT a FROM Access a WHERE LOWER(a.description) LIKE LOWER(CONCAT('%', :desc, '%'))")
     List<Access> findAccessByDescription(@Param("desc") String desc);
+
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Access a WHERE LOWER(a.description) = LOWER(:desc)")
+    boolean existsByDescriptionIgnoreCase(@Param("desc") String desc);
 }

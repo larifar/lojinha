@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +23,14 @@ import java.util.List;
 @RestControllerAdvice
 @ControllerAdvice
 public class ExceptionsController extends ResponseEntityExceptionHandler {
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ErrorObjectDto objectDto = new ErrorObjectDto();
+        objectDto.setError("Não há dados no body da requisição.");
+        objectDto.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
+
+        return new ResponseEntity<>(objectDto, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(ExceptionLoja.class)
     public ResponseEntity<Object> handleCustomException(ExceptionLoja ex){
@@ -30,8 +40,6 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(objectDto, HttpStatus.OK);
     }
-
-    @Override
     @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         ErrorObjectDto objectDto = new ErrorObjectDto();
@@ -40,10 +48,10 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
 
         if (ex instanceof MethodArgumentNotValidException){
             List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
-            for (ObjectError error : list){
+            for (ObjectError error : list) {
                 msg += error.getDefaultMessage() + "\n";
             }
-        }else{
+        } else{
             msg = ex.getMessage();
         }
         objectDto.setError(msg);

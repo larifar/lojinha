@@ -24,8 +24,8 @@ public class AccessController {
     @ResponseBody
     @PostMapping(value = "/saveAccess")
     public ResponseEntity<Access> saveAccess(@RequestBody Access access) throws ExceptionLoja {
-        Optional<List<Access>> accesses = Optional.ofNullable(accessService.findByDesc(access.getDescription()));
-        if (accesses.isPresent()){
+        Boolean exists = accessService.existsByDescription(access.getDescription());
+        if (exists){
             throw new ExceptionLoja("Já existe um acesso com essa descrição.");
         }
         Access accessSaved = accessService.save(access);
