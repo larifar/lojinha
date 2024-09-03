@@ -1,5 +1,6 @@
 package com.larissa.virtual.lojinha.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.larissa.virtual.lojinha.enums.AddressType;
 import jakarta.persistence.*;
 
@@ -36,9 +37,24 @@ public class Address implements Serializable {
     private AddressType addressType;
 
     //Mapeamento "muitos para um"
+    @JsonIgnore //evita recursividade
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Address() {
+    }
+
+    public Address(String street, String number, String complement, String neighbor, String UF, String city, String zipcode, AddressType addressType) {
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighbor = neighbor;
+        this.UF = UF;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.addressType = addressType;
+    }
 
     public long getId() {
         return id;

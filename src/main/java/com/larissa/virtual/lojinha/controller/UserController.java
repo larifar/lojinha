@@ -1,6 +1,7 @@
 package com.larissa.virtual.lojinha.controller;
 
 import com.larissa.virtual.lojinha.exception.ExceptionLoja;
+import com.larissa.virtual.lojinha.model.Address;
 import com.larissa.virtual.lojinha.model.User;
 import com.larissa.virtual.lojinha.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class UserController {
 
         if (user.getId() == null && service.findUserByCPF(user.getCPF()) != null){
             throw new ExceptionLoja("Esse CPF já foi cadastrado em outra conta.");
+        }
+
+        for (Address address : user.getAddresses()) {
+            address.setUser(user);
         }
 
         user = service.save(user);

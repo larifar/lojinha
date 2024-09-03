@@ -1,5 +1,6 @@
 package com.larissa.virtual.lojinha.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable, UserDetails {
 
     @Serial
@@ -104,12 +106,12 @@ public class User implements Serializable, UserDetails {
 
         User user = (User) o;
 
-        return id == user.id;
+        return getId().equals(user.getId());
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return (id != null) ? id.hashCode() : 0;
     }
 
     @Override
@@ -125,5 +127,18 @@ public class User implements Serializable, UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", CPF='" + CPF + '\'' +
+                ", password='" + password + '\'' +
+                ", accesses=" + accesses +
+                ", addresses=" + addresses +
+                '}';
     }
 }
