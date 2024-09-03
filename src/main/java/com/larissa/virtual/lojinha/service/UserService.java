@@ -18,6 +18,9 @@ public class UserService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SendEmailService emailService;
+
     public User findUserByCPF(String cpf) { return repository.findUserByCPF(cpf);}
 
     public User findUserByEmail(String e){ return repository.findUserByEmail(e);}
@@ -29,6 +32,16 @@ public class UserService {
         }
         user = repository.save(user);
         repository.insertUserAccess(user.getId());
+
+        StringBuilder message = new StringBuilder();
+        message.append("<b>Obrigado por se cadastrar na Loja Virtual!</b>");
+        message.append("<p>Seu login é: "+ user.getEmail() +"</p>");
+
+        try {
+            emailService.sendEmailHtml("Bem-vindo a Loja Virtual", message.toString(), user.getEmail());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return user;
     }
 
