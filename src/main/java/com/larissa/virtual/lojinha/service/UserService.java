@@ -32,6 +32,7 @@ public class UserService {
         }
         user = repository.save(user);
         repository.insertUserAccess(user.getId());
+//        repository.insertUserAccess(user.getId(), "ROLE_ADMIN");
 
         StringBuilder message = new StringBuilder();
         message.append("<b>Obrigado por se cadastrar na Loja Virtual!</b>");
