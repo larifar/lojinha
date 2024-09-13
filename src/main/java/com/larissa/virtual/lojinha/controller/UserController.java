@@ -4,6 +4,7 @@ import com.larissa.virtual.lojinha.exception.ExceptionLoja;
 import com.larissa.virtual.lojinha.model.Address;
 import com.larissa.virtual.lojinha.model.User;
 import com.larissa.virtual.lojinha.service.UserService;
+import com.larissa.virtual.lojinha.util.ValidateCPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,10 @@ public class UserController {
 
         if (user.getId() == null && service.findUserByCPF(user.getCPF()) != null){
             throw new ExceptionLoja("Esse CPF já foi cadastrado em outra conta.");
+        }
+
+        if (!ValidateCPF.isCPF(user.getCPF())){
+            throw new ExceptionLoja("Esse CPF não é válido.");
         }
 
         for (Address address : user.getAddresses()) {
