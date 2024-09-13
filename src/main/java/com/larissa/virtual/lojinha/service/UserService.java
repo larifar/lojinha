@@ -1,11 +1,13 @@
 package com.larissa.virtual.lojinha.service;
 
+import com.larissa.virtual.lojinha.dto.ViaCepDto;
 import com.larissa.virtual.lojinha.model.Access;
 import com.larissa.virtual.lojinha.model.User;
 import com.larissa.virtual.lojinha.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
