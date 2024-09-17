@@ -4,7 +4,6 @@ import com.larissa.virtual.lojinha.dto.ViaCepDto;
 import com.larissa.virtual.lojinha.exception.ExceptionLoja;
 import com.larissa.virtual.lojinha.model.Address;
 import com.larissa.virtual.lojinha.model.User;
-import com.larissa.virtual.lojinha.repository.AddressRepository;
 import com.larissa.virtual.lojinha.service.AddressService;
 import com.larissa.virtual.lojinha.service.UserService;
 import com.larissa.virtual.lojinha.util.ValidateCPF;
@@ -13,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -28,6 +28,18 @@ public class UserController {
     @GetMapping("/viaCep/{cep}")
     public ResponseEntity<ViaCepDto> search(@PathVariable String cep){
         return new ResponseEntity<>(addressService.searchCep(cep), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/getUsers/{name}")
+    public ResponseEntity<List<User>> getUsersByName(@PathVariable String name){
+        return new ResponseEntity<>(service.getUsersByName(name), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/getUser/{cpf}")
+    public ResponseEntity<User> getUserByCPF(@PathVariable String cpf){
+        return new ResponseEntity<>(service.findUserByCPF(cpf), HttpStatus.OK);
     }
 
     @ResponseBody

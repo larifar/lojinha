@@ -7,8 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
+    @Query(value = "select u from User u where upper(trim(u.name)) like %?1%")
+    List<User> findByName(String name);
     @Query(value = "select u from User u where u.email =?1")
     User findUserByEmail(String email);
 
