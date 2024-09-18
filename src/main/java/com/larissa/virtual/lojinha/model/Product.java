@@ -1,6 +1,9 @@
 package com.larissa.virtual.lojinha.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,17 +23,24 @@ public class Product implements Serializable {
     private Boolean available = false;
 
     @Column(nullable = false)
+    @NotBlank(message = "O nome do produto deve ser informado.")
+    @Size(min = 3, message = "O número minimo de carateres é 3.")
     private String name;
     @Column(nullable = false, columnDefinition = "text")
+    @NotBlank(message = "A descrição do produto deve ser informada.")
+    @Size(min = 10, message = "O número minimo de carateres é 10.")
     private String description;
     @Column(nullable = false)
+    @NotBlank(message = "As dimensões devem ser informadas.")
     private String dimensions;
     @Column(nullable = false)
+    @NotNull(message = "Valor não pode ser nulo.")
     private BigDecimal value;
     @Column(name = "video_url")
     private String videoUrl;
     @ManyToOne
     @JoinColumn(nullable = false)
+    @NotNull(message = "O produto deve ter uma categoria.")
     private ProductCategoryModel category;
 
     public long getId() {
