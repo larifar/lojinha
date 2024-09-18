@@ -1,6 +1,5 @@
 package com.larissa.virtual.lojinha.security;
 
-import com.larissa.virtual.lojinha.exception.ExceptionLoja;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
